@@ -57,9 +57,14 @@ namespace IdeaAPI.Controllers
 
         // GET api/values
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(String owner, int count = 100)
         {
-            return Ok(ideas);
+         	Debug.WriteLine($"Requested Language: {Request.Headers["Accept-Language"]}");
+        	Debug.WriteLine($"Device Platform: {Request.Headers["x-device-type"]}");
+        	if (!string.IsNullOrEmpty(owner)){
+        		return Ok(ideas.Where(x => x.Owner == owner).Take(count));
+        	}
+        	return Ok(ideas.Take(count));
         }
 
         // GET api/values/5
